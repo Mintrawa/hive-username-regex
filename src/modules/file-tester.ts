@@ -9,7 +9,7 @@ import path from 'path'
 
 /** Generic Helpers */
 import { CONFIG } from '../helpers/CONFIG'
-import { RESULT } from '../helpers/RESULT'
+import { RESULT_FILE } from '../helpers/RESULT'
 
 export class FileTester {
   chance = new Chance()
@@ -18,7 +18,7 @@ export class FileTester {
   username: string|null = null
 
   config!: CONFIG
-  result?: RESULT
+  result?: RESULT_FILE
 
   constructor(config: CONFIG, usernameRegex: string, generateFile: boolean) {
     this.config = config
@@ -124,15 +124,16 @@ export class FileTester {
 
             if(this.isUsernameValid(a)) {
               this.result!.nb_passed += 1
+              this.result!.list_passed.push(a)
+              console.log(`\x1b[32m${this.username}\x1b[0m valid username`)
             } else {
               this.result!.nb_error += 1
               this.result!.list_not_passed.push(a)
-              console.log(`\x1b[31m${this.username}\x1b[0m invalid username`)
             }
           }
 
           /** Update result file */
-          await writeJson(path.join(path.resolve(path.dirname('')), './results/blockchain.json'), this.result)
+          await writeJson(path.join(path.resolve(path.dirname('')), './results/file.json'), this.result)
 
           /** Delay treatment POST */
           const hrtimeEnd = process.hrtime(hrtime)

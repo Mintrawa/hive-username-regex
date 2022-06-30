@@ -10,7 +10,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 /** Generic Helpers */
 import { CONFIG } from '../helpers/CONFIG'
-import { RESULT } from '../helpers/RESULT'
+import { RESULT_BLOKCHAIN } from '../helpers/RESULT'
 import { HIVE_JSONRPC } from '../helpers/HIVE_JSONRPC'
 
 export class BlockchainTester {
@@ -22,7 +22,7 @@ export class BlockchainTester {
 
   node?: { url: string, num: number }
 
-  result?: RESULT
+  result?: RESULT_BLOKCHAIN
 
   constructor(config: CONFIG, usernameRegex: string) {
     this.config = config

@@ -7,7 +7,7 @@ import path from 'path'
 
 /** Helpers */
 import { CONFIG, isConfigValid } from './helpers/CONFIG.js'
-import { RESULT } from './helpers/RESULT.js';
+import { RESULT_BLOKCHAIN, RESULT_FILE } from './helpers/RESULT.js';
 
 /** Modules */
 import { BlockchainTester } from './modules/blockchain-tester.js';
@@ -27,7 +27,8 @@ const start = async (): Promise<void> => {
         type: 'input',
         name: 'usernameRegex',
         message: 'What username regex would you like to test?',
-        default: '^(?=.{3,16}$)[a-z]([0-9a-z]|[0-9a-z\-](?=[0-9a-z])){2,}([\.](?=[a-z][0-9a-z\-][0-9a-z\-])[a-z]([0-9a-z]|[0-9a-z\-](?=[0-9a-z])){1,}){0,}$',
+        // default: '^(?=.{3,16}$)[a-z]([0-9a-z]|[0-9a-z\-](?=[0-9a-z])){2,}([\.](?=[a-z][0-9a-z\-][0-9a-z\-])[a-z]([0-9a-z]|[0-9a-z\-](?=[0-9a-z])){1,}){0,}$',
+        default: '^(?=.{3,16}$)[a-z][0-9a-z\-]{1,}[0-9a-z]([\.][a-z][0-9a-z\-]{1,}[0-9a-z]){0,}$',
       },
       {
         type: 'confirm',
@@ -71,7 +72,7 @@ const start = async (): Promise<void> => {
     }
 
     /** Prepare blockchain result file & Start the blockchain tester if asked */
-    const blockchain_result: RESULT = {
+    const blockchain_result: RESULT_BLOKCHAIN = {
       last_username: "",
       nb_tested: 0,
       nb_passed: 0,
@@ -104,12 +105,13 @@ const start = async (): Promise<void> => {
 
 
     /** Prepare file result file & Start the file tester if asked */
-    const file_result: RESULT = {
+    const file_result: RESULT_FILE = {
       last_username: "",
       nb_tested: 0,
       nb_passed: 0,
       nb_error:  0,
-      list_not_passed: []
+      list_not_passed: [],
+      list_passed: [],
     }
     readJson(path.join(path.resolve(path.dirname('')), './results/file.json'), async (err) => {
       try {
